@@ -12,34 +12,28 @@ struct AttendanceView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     let username: String
-
-    // Roles list
     let roles = AppConstants.roles
 
-    // Selected role for filtering (optional)
     @State private var selectedRole = ""
 
-    // Fetch only attendance records for logged-in user
     @FetchRequest var attendanceRecords: FetchedResults<Attendance>
 
     init(username: String) {
         self.username = username
-
-        // FetchRequest predicate to filter by username of user relationship
         _attendanceRecords = FetchRequest<Attendance>(
             entity: Attendance.entity(),
-            sortDescriptors: [NSSortDescriptor(keyPath: \Attendance.inTime, ascending: true)],
+            sortDescriptors: [NSSortDescriptor(keyPath: \Attendance.inTime, ascending: false)],
             predicate: NSPredicate(format: "user.username == %@", username),
-            animation: .default
+            animation: .easeInOut
         )
     }
 
     var totalWorkedDuration: TimeInterval {
-        attendanceRecords.reduce(0) { partialResult, record in
+        attendanceRecords.reduce(0) { total, record in
             if let inTime = record.inTime, let outTime = record.outTime {
-                return partialResult + outTime.timeIntervalSince(inTime)
+                return total + outTime.timeIntervalSince(inTime)
             }
-            return partialResult
+            return total
         }
     }
 
@@ -50,63 +44,122 @@ struct AttendanceView: View {
     }
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Attendance for \(username)")
-                .font(.largeTitle)
-                .bold()
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [.purple.opacity(0.3), .purple.opacity(0.3)]),
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                .ignoresSafeArea()
 
-            
-
-            Text("Total Worked Time:")
-                .font(.title2)
-                .bold()
-
-            Text(formattedDuration(totalWorkedDuration))
-                .font(.title)
-                .foregroundColor(.blue)
-
-            Divider().padding()
-
-            ScrollView {
-                VStack(spacing: 10) {
-                    ForEach(attendanceRecords.filter {
-                        selectedRole.isEmpty || $0.user?.role == selectedRole
-                    }) { record in
-                        VStack(alignment: .leading) {
-                            Text("Date: \(record.inTime ?? Date(), formatter: dateFormatter)")
-                            Text("In: \(record.inTime ?? Date(), formatter: timeFormatter) - Out: \(record.outTime ?? Date(), formatter: timeFormatter)")
-                            Text("Role: \(record.user?.role ?? "Unknown")")
-                        }
+            VStack(spacing: 20) {
+                VStack {
+                    Text(" \(username)")
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(.black.opacity(6))
                         .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
-                    }
+
+                    Text("🕒 Total Worked Time")
+                        .font(.headline)
+                        .foregroundColor(.black.opacity(4))
+                        .padding()
+
+                    Text(formattedDuration(totalWorkedDuration))
+                        .font(.system(size: 34, weight: .bold))
+                        .foregroundColor(.pink.opacity(8))
+                        .padding()
                 }
                 .padding()
-            }
-            // Role Picker
-            Picker("Select Role", selection: $selectedRole) {
-                Text("All Roles").tag("")
-                ForEach(roles, id: \.self) { role in
-                    Text(role).tag(role)
+                .frame(width: 300, height: 300)
+                .background(.ultraThickMaterial)
+                .cornerRadius(20)
+                .shadow(radius: 10)
+                
+                Spacer()
+                
+                Picker("Change Role", selection: $selectedRole) {
+                    ForEach(roles, id: \.self) { role in
+                        Text(role).tag(role)
+                    }
                 }
-            }
-            .pickerStyle(MenuPickerStyle())
-            .frame(maxWidth: .infinity)
-            .frame(height: 60)
-            .background(Color.purple.opacity(0.6))
-            .cornerRadius(13)
-            .padding(.horizontal)
-            
+                .pickerStyle(MenuPickerStyle())
+                .accentColor(.black) // Changes selection tint to black
 
-            Spacer()
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(.white)
+                .cornerRadius(15)
+                .shadow(color: .black.opacity(0.1), radius: 5)
+                .padding(.horizontal)
+
+                ScrollView {
+                    VStack(spacing: 15) {
+                        ForEach(attendanceRecords) { record in
+                            AttendanceCard(record: record, roles: roles, saveAction: saveContext)
+                        }
+                    }
+                    .padding()
+                }
+
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
+    }
+
+    private func saveContext() {
+        do {
+            try viewContext.save()
+            print("Context saved")
+        } catch {
+            print("Error saving context: \(error.localizedDescription)")
+        }
     }
 }
 
+struct AttendanceCard: View {
+    var record: Attendance
+    var roles: [String]
+    var saveAction: () -> Void
 
-// Date and time formatter helpers
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image(systemName: "calendar")
+                Text("Date: \(record.inTime ?? Date(), formatter: dateFormatter)")
+            }
+
+            HStack {
+                Image(systemName: "clock")
+                Text("In: \(record.inTime ?? Date(), formatter: timeFormatter)")
+                Text("-")
+                Text("Out: \(record.outTime ?? Date(), formatter: timeFormatter)")
+            }
+
+            if let user = record.user {
+                Picker("Change Role", selection: Binding<String>(
+                    get: { user.role ?? "" },
+                    set: { newRole in
+                        user.role = newRole
+                        saveAction()
+                    }
+                )) {
+                    ForEach(roles, id: \.self) { role in
+                        Text(role).tag(role)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+            } else {
+                Text("Role info missing").foregroundColor(.red)
+            }
+        }
+        .padding()
+        .background(LinearGradient(gradient: Gradient(colors: [.white, .gray.opacity(0.1)]),
+                                   startPoint: .top, endPoint: .bottom))
+        .cornerRadius(15)
+        .shadow(color: .black.opacity(0.1), radius: 5)
+    }
+}
+
+// Formatters
 private let dateFormatter: DateFormatter = {
     let df = DateFormatter()
     df.dateStyle = .medium
@@ -118,6 +171,12 @@ private let timeFormatter: DateFormatter = {
     tf.timeStyle = .short
     return tf
 }()
+
+
+
+
+
+
 
 
 
