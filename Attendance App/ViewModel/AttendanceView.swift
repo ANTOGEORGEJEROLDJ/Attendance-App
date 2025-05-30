@@ -15,6 +15,7 @@ struct AttendanceView: View {
     let roles = AppConstants.roles
 
     @State private var selectedRole = ""
+    @State private var user: User? = nil
 
     @FetchRequest var attendanceRecords: FetchedResults<Attendance>
 
@@ -51,20 +52,20 @@ struct AttendanceView: View {
 
             VStack(spacing: 20) {
                 VStack {
-                    Text(" \(username)")
-                        .font(.title)
+                    Text("\(username)")
+                        .font(.title2)
                         .bold()
-                        .foregroundColor(.black.opacity(6))
+                        .foregroundColor(.black)
                         .padding()
 
                     Text("🕒 Total Worked Time")
                         .font(.headline)
-                        .foregroundColor(.black.opacity(4))
+                        .foregroundColor(.gray)
                         .padding()
 
                     Text(formattedDuration(totalWorkedDuration))
-                        .font(.system(size: 34, weight: .bold))
-                        .foregroundColor(.pink.opacity(8))
+                        .font(.system(size: 32, weight: .bold))
+                        .foregroundColor(.pink)
                         .padding()
                 }
                 .padding()
@@ -74,21 +75,36 @@ struct AttendanceView: View {
                 .shadow(radius: 10)
                 
                 Spacer()
-                
-                Picker("Change Role", selection: $selectedRole) {
-                    ForEach(roles, id: \.self) { role in
-                        Text(role).tag(role)
-                    }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .accentColor(.black) // Changes selection tint to black
 
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(.white)
-                .cornerRadius(15)
-                .shadow(color: .black.opacity(0.1), radius: 5)
-                .padding(.horizontal)
+                // Role Picker and Save Button
+                VStack(spacing: 10) {
+                    Picker("Change Role", selection: $selectedRole) {
+                        ForEach(roles, id: \.self) { role in
+                            Text(role).tag(role)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .accentColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.white)
+                    .cornerRadius(15)
+                    .shadow(color: .black.opacity(0.1), radius: 5)
+                    .padding(.horizontal)
+
+                    Button("Save Role") {
+                        if let user = user {
+                            user.role = selectedRole
+                            saveContext()
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.green.opacity(0.8))
+                    .foregroundColor(.white)
+                    .cornerRadius(15)
+                    .padding(.horizontal)
+                }
 
                 ScrollView {
                     VStack(spacing: 15) {
@@ -102,6 +118,22 @@ struct AttendanceView: View {
                 Spacer()
             }
             .padding()
+        }
+        .onAppear {
+            fetchUserAndSetRole()
+        }
+    }
+
+    private func fetchUserAndSetRole() {
+        let request: NSFetchRequest<User> = User.fetchRequest()
+        request.predicate = NSPredicate(format: "username == %@", username)
+        do {
+            if let fetchedUser = try viewContext.fetch(request).first {
+                user = fetchedUser
+                selectedRole = fetchedUser.role ?? ""
+            }
+        } catch {
+            print("Failed to fetch user: \(error.localizedDescription)")
         }
     }
 
@@ -146,20 +178,23 @@ struct AttendanceCard: View {
                         Text(role).tag(role)
                     }
                 }
-                .pickerStyle(SegmentedPickerStyle())
+                .pickerStyle(MenuPickerStyle())
+                .background(Color.black.opacity(0.9))
+                .padding(.top, 8)
             } else {
                 Text("Role info missing").foregroundColor(.red)
             }
         }
         .padding()
-        .background(LinearGradient(gradient: Gradient(colors: [.white, .gray.opacity(0.1)]),
-                                   startPoint: .top, endPoint: .bottom))
+        .background(
+            LinearGradient(gradient: Gradient(colors: [.white, .gray.opacity(0.1)]),
+                           startPoint: .top, endPoint: .bottom)
+        )
         .cornerRadius(15)
         .shadow(color: .black.opacity(0.1), radius: 5)
     }
 }
 
-// Formatters
 private let dateFormatter: DateFormatter = {
     let df = DateFormatter()
     df.dateStyle = .medium
@@ -171,6 +206,18 @@ private let timeFormatter: DateFormatter = {
     tf.timeStyle = .short
     return tf
 }()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

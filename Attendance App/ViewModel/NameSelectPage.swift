@@ -6,17 +6,18 @@
 //
 
 
-
 import SwiftUI
 import CoreData
 
 struct NameSelectPage: View {
     @Environment(\.managedObjectContext) private var viewContext
-    
+
     @FetchRequest(
         entity: User.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \User.username, ascending: true)]
     ) private var users: FetchedResults<User>
+
+    @State private var highlightedUsername: String? = nil
 
     var body: some View {
         VStack {
@@ -26,7 +27,15 @@ struct NameSelectPage: View {
                         let username = user.username ?? ""
                         let role = user.role ?? "No Role"
 
-                        NavigationLink(destination: AttendanceView(username: username) ){
+                        NavigationLink(destination: AttendanceView(username: username)
+                                        .onDisappear {
+                                            // Refresh UI when coming back
+                                            highlightedUsername = username
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                                highlightedUsername = nil
+                                            }
+                                        }
+                        ) {
                             HStack {
                                 Text(username)
                                     .font(.headline)
@@ -36,7 +45,11 @@ struct NameSelectPage: View {
                             }
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.blue.opacity(0.2))
+                            .background(
+                                highlightedUsername == username
+                                ? Color.green.opacity(0.3)
+                                : Color.blue.opacity(0.2)
+                            )
                             .cornerRadius(8)
                         }
                         .padding(.horizontal)
@@ -46,7 +59,7 @@ struct NameSelectPage: View {
             }
 
             Button("Change Role") {
-                // Add your logic or navigation here
+                // Add logic or navigation here
             }
             .frame(width: 200, height: 50)
             .foregroundColor(.black)
@@ -56,24 +69,7 @@ struct NameSelectPage: View {
         }
         .navigationTitle("Select Name")
     }
-
-    func fetchEntries(for username: String) -> [InOutEntry] {
-        let request: NSFetchRequest<Attendance> = Attendance.fetchRequest()
-        request.predicate = NSPredicate(format: "username == %@", username) // Use the correct Core Data key
-
-        do {
-            let results = try viewContext.fetch(request)
-            return results.map {
-                InOutEntry(inTime: $0.inTime ?? Date(), outTime: $0.outTime)
-            }
-        } catch {
-            print("Fetch failed: \(error)")
-            return []
-        }
-    }
 }
-
-
 
 struct NameSelect_preview: PreviewProvider {
     static var previews: some View {
@@ -81,9 +77,6 @@ struct NameSelect_preview: PreviewProvider {
     }
 
     struct ProfilePagePreviewWrapper: View {
-        @State private var role = "Employee"
-        @State private var profileImage = Data()
-
         var body: some View {
             NavigationView {
                 NameSelectPage()
