@@ -52,27 +52,17 @@ struct ListView: View {
             Image("backgroundImage")
                 .resizable()
                 .padding(.all, -150)
-                .ignoresSafeArea() // Makes it full screen
+                .ignoresSafeArea()
                 
             
             VStack(spacing: 16) {
-                
-                // Header
                 Text("Attendance List")
                     .font(.largeTitle.bold())
                     .foregroundColor(.black)
                     .padding(.top, 60)
                 
                 ScrollView {
-                    VStack(spacing: 12) {
-                        // Users Section
-//                        Text("Registered Users")
-//                            .font(.title2.bold())
-//                            .foregroundColor(.black)
-//                            .padding(.top,20)
-                        
-                        
-                        
+                    VStack(spacing: 12) {        
                         ForEach(attendanceRecords) { record in
                             VStack(alignment: .leading) {
                                 Text("Date: \(record.date)")

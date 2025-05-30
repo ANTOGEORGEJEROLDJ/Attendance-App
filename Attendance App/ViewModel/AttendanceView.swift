@@ -9,6 +9,20 @@ import SwiftUI
 
 struct AttendanceView: View {
     let entries: [InOutEntry]
+    
+//    var pickere = ["manager","teamleader","hr","developer"]
+//    @State private var selectedRole: String = "manager"
+
+    
+    @Environment(\.managedObjectContext) private var viewContext
+
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \User.username, ascending: true)],
+        animation: .default
+    )
+    private var users: FetchedResults<User>
+//    let roles = AppConstants.roles
+//    @Binding var role: String = "manager"
 
     var attendanceRecords: [Attendances] {
         entries.compactMap { entry in
@@ -59,7 +73,25 @@ struct AttendanceView: View {
                     }
                     .padding(.horizontal)
                 }
-                .padding(.vertical, 50)
+//
+                
+//                Text("Select Role")
+//                        .font(.headline)
+//                        .foregroundColor(.black)
+//
+//                Picker("Select Role", selection: $rolesZ) {
+//                        ForEach(users, id: \.self) {
+//                            Text($0).tag($0)
+//
+//                        }
+//                    }
+//
+//                .pickerStyle(MenuPickerStyle()) // or MenuPickerStyle(), WheelPickerStyle(), etc.
+//                    .padding(.horizontal)
+//                    .background(Color.orange.opacity(0.8))
+//                    .cornerRadius(10)
+                    
+
 
                 Spacer()
             }
@@ -68,10 +100,25 @@ struct AttendanceView: View {
     }
 }
 
+// MARK: - Preview
 struct AttendanceView_Previews: PreviewProvider {
+    struct PreviewWrapper: View {
+        @State private var role: String = "Worker"
+        
+        var body: some View {
+            AttendanceView(
+                entries: [
+                    InOutEntry(
+                        inTime: Date(),
+                        outTime: Calendar.current.date(byAdding: .hour, value: 8, to: Date())
+                    )
+                ],
+//                role: $role
+            )
+        }
+    }
+
     static var previews: some View {
-        AttendanceView(entries: [
-            InOutEntry(inTime: Date(), outTime: Calendar.current.date(byAdding: .hour, value: 8, to: Date()))
-        ])
+        PreviewWrapper()
     }
 }

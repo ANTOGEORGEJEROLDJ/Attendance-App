@@ -21,6 +21,7 @@
 		4EACA3742DE97ACB00814253 /* profilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACA36A2DE97ACB00814253 /* profilePage.swift */; };
 		4EACA3752DE97ACB00814253 /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACA3672DE97ACB00814253 /* AttendanceView.swift */; };
 		4EACA3762DE97ACB00814253 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACA36B2DE97ACB00814253 /* RegisterView.swift */; };
+		4EACA40F2DE99D4700814253 /* sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACA40E2DE99D4700814253 /* sample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		4EACA3692DE97ACB00814253 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		4EACA36A2DE97ACB00814253 /* profilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profilePage.swift; sourceTree = "<group>"; };
 		4EACA36B2DE97ACB00814253 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		4EACA40E2DE99D4700814253 /* sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -146,9 +148,9 @@
 		4E30BA6D2DE8BA22002A0CA2 /* Attendance App */ = {
 			isa = PBXGroup;
 			children = (
+				4E30BA602DE8BA22002A0CA2 /* Core Data */,
 				4E30BA632DE8BA22002A0CA2 /* model */,
 				4EACA36C2DE97ACB00814253 /* ViewModel */,
-				4E30BA602DE8BA22002A0CA2 /* Core Data */,
 				4E30BA642DE8BA22002A0CA2 /* Assets.xcassets */,
 				4EACA3632DE97A7E00814253 /* Methods */,
 			);
@@ -162,8 +164,9 @@
 				4EACA3682DE97ACB00814253 /* inOutpage.swift */,
 				4EACA3692DE97ACB00814253 /* ListView.swift */,
 				4EACA3672DE97ACB00814253 /* AttendanceView.swift */,
-				4EACA36A2DE97ACB00814253 /* profilePage.swift */,
 				4E30BA682DE8BA22002A0CA2 /* NameSelectPage.swift */,
+				4EACA36A2DE97ACB00814253 /* profilePage.swift */,
+				4EACA40E2DE99D4700814253 /* sample.swift */,
 				4E30BA6C2DE8BA22002A0CA2 /* TabView.swift */,
 			);
 			path = ViewModel;
@@ -321,6 +324,7 @@
 				4E30BA732DE8BA22002A0CA2 /* AppConstants.swift in Sources */,
 				4E30BA742DE8BA22002A0CA2 /* AttendanceManager.swift in Sources */,
 				4EACA3722DE97ACB00814253 /* ListView.swift in Sources */,
+				4EACA40F2DE99D4700814253 /* sample.swift in Sources */,
 				4EACA3732DE97ACB00814253 /* inOutpage.swift in Sources */,
 				4EACA3742DE97ACB00814253 /* profilePage.swift in Sources */,
 				4EACA3752DE97ACB00814253 /* AttendanceView.swift in Sources */,

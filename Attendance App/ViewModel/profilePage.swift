@@ -17,6 +17,8 @@ struct profilePage: View {
     @Binding var role: String
     @Binding var profileImage: Data
 
+//    @Environment(\.managedObjectContext) private var viewContext
+    
     @State private var profileUIImage: UIImage? = nil
     @State private var showImagePicker = false
     @State private var selectedUIImage: UIImage? = nil
@@ -48,8 +50,8 @@ struct profilePage: View {
                     }) {
                         Image(systemName: "camera")
                             .foregroundColor(.white)
-                            .frame(width: 44, height: 44)
-                            .background(Circle().fill(Color.black.opacity(0.75)))
+                            .frame(width: 50, height: 50)
+                            .background(Circle().fill(Color.black.opacity(1)))
                     }
                     .padding(8)
                 }
@@ -126,7 +128,7 @@ struct profilePage: View {
             }
              
             if role == "Manager" {
-                NavigationLink(destination: NameSelectPage(userNames: [userName], role: $role)) {
+                NavigationLink(destination: NameSelectPage()) {
                     Text("Select Employee")
                         .padding()
                         .frame(width: 370 )

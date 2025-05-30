@@ -45,6 +45,6 @@ struct TabViewPage: View {
             .tabItem {
                 Label("Profile", systemImage: "person.circle")
             }
-        }
+        }.tint(.purple.opacity(0.8))
     }
 }

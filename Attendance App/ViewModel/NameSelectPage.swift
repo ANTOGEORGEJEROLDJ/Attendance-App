@@ -8,20 +8,27 @@
 
 
 import SwiftUI
+import CoreData
 
 struct NameSelectPage: View {
-    var userNames: [String]
-    @Binding var role: String
-    @State private var selectedEntries: [InOutEntry] = []
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    @FetchRequest(
+        entity: User.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \User.username, ascending: true)]
+    ) private var users: FetchedResults<User>
 
     var body: some View {
         VStack {
             ScrollView {
                 VStack(spacing: 15) {
-                    ForEach(userNames, id: \.self) { name in
-                        NavigationLink(destination: AttendanceView(entries: fetchEntries(for: name))) {
+                    ForEach(users, id: \.self) { user in
+                        let username = user.username ?? ""
+                        let role = user.role ?? "No Role"
+
+                        NavigationLink(destination: AttendanceView(entries: fetchEntries(for: user.username ?? ""))) {
                             HStack {
-                                Text(name)
+                                Text(username)
                                     .font(.headline)
                                 Spacer()
                                 Text(role)
@@ -39,7 +46,7 @@ struct NameSelectPage: View {
             }
 
             Button("Change Role") {
-                print("Change role tapped")
+                // Add your logic or navigation here
             }
             .frame(width: 200, height: 50)
             .foregroundColor(.black)
@@ -50,31 +57,37 @@ struct NameSelectPage: View {
         .navigationTitle("Select Name")
     }
 
-    func fetchEntries(for user: String) -> [InOutEntry] {
-        // Dummy data — replace this with actual Core Data fetch logic
-        return [
-            InOutEntry(inTime: Date(), outTime: Calendar.current.date(byAdding: .hour, value: 8, to: Date())),
-            InOutEntry(inTime: Calendar.current.date(byAdding: .day, value: -1, to: Date()),
-                       outTime: Calendar.current.date(byAdding: .hour, value: 8, to: Calendar.current.date(byAdding: .day, value: -1, to: Date())!))
-        ]
-    }
-}
+    func fetchEntries(for username: String) -> [InOutEntry] {
+        let request: NSFetchRequest<Attendance> = Attendance.fetchRequest()
+        request.predicate = NSPredicate(format: "username == %@", username) // Use the correct Core Data key
 
-struct NameSelectPage_Previews: PreviewProvider {
-    static var previews: some View {
-        NameSelectPagePreviewWrapper()
-    }
-
-    struct NameSelectPagePreviewWrapper: View {
-        @State private var role = "Manager"
-        let sampleNames = ["Alice", "Bob", "Charlie"]
-
-        var body: some View {
-            NavigationView {
-                NameSelectPage(userNames: sampleNames, role: $role)
+        do {
+            let results = try viewContext.fetch(request)
+            return results.map {
+                InOutEntry(inTime: $0.inTime ?? Date(), outTime: $0.outTime)
             }
+        } catch {
+            print("Fetch failed: \(error)")
+            return []
         }
     }
 }
 
 
+
+struct NameSelect_preview: PreviewProvider {
+    static var previews: some View {
+        ProfilePagePreviewWrapper()
+    }
+
+    struct ProfilePagePreviewWrapper: View {
+        @State private var role = "Employee"
+        @State private var profileImage = Data()
+
+        var body: some View {
+            NavigationView {
+                NameSelectPage()
+            }
+        }
+    }
+}
