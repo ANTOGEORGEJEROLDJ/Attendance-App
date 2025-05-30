@@ -61,7 +61,7 @@ struct InOutPage: View {
                             .font(.title2)
                             .bold()
                             .lineLimit(1)
-                            .padding(.leading, 50)
+                            .padding(.leading, 70)
                     
 
                     Spacer()

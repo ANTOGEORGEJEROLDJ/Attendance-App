@@ -129,7 +129,7 @@ struct RegisterView: View {
                                 .cornerRadius(10)
                         }
                         .padding(.top, 0)
-                        .disabled(userName.isEmpty || password.isEmpty || !isEmailValid || !isPhoneValid || selectedRole.isEmpty)
+//                        .disabled(userName.isEmpty || password.isEmpty || !isEmailValid || !isPhoneValid || selectedRole.isEmpty)
 
                         NavigationLink(destination: TabViewPage(
                             userName: userName,

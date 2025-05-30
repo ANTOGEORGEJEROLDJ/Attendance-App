@@ -78,6 +78,11 @@
 			path = Methods;
 			sourceTree = "<group>";
 		};
+		4EDAC4C82DE9E9F4007A841C /* Manual intime */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Manual intime";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +153,7 @@
 		4E30BA6D2DE8BA22002A0CA2 /* Attendance App */ = {
 			isa = PBXGroup;
 			children = (
+				4EDAC4C82DE9E9F4007A841C /* Manual intime */,
 				4E30BA602DE8BA22002A0CA2 /* Core Data */,
 				4E30BA632DE8BA22002A0CA2 /* model */,
 				4EACA36C2DE97ACB00814253 /* ViewModel */,
@@ -189,6 +195,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4EACA3632DE97A7E00814253 /* Methods */,
+				4EDAC4C82DE9E9F4007A841C /* Manual intime */,
 			);
 			name = "Attendance App";
 			packageProductDependencies = (

@@ -26,7 +26,7 @@ struct NameSelectPage: View {
                         let username = user.username ?? ""
                         let role = user.role ?? "No Role"
 
-                        NavigationLink(destination: AttendanceView(entries: fetchEntries(for: user.username ?? ""))) {
+                        NavigationLink(destination: AttendanceView(username: username) ){
                             HStack {
                                 Text(username)
                                     .font(.headline)

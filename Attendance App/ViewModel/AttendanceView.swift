@@ -6,119 +6,127 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct AttendanceView: View {
-    let entries: [InOutEntry]
-    
-//    var pickere = ["manager","teamleader","hr","developer"]
-//    @State private var selectedRole: String = "manager"
-
-    
     @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \User.username, ascending: true)],
-        animation: .default
-    )
-    private var users: FetchedResults<User>
-//    let roles = AppConstants.roles
-//    @Binding var role: String = "manager"
+    let username: String
 
-    var attendanceRecords: [Attendances] {
-        entries.compactMap { entry in
-            guard let inTime = entry.inTime, let outTime = entry.outTime else { return nil }
+    // Roles list
+    let roles = AppConstants.roles
 
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .medium
+    // Selected role for filtering (optional)
+    @State private var selectedRole = ""
 
-            let timeFormatter = DateFormatter()
-            timeFormatter.timeStyle = .short
+    // Fetch only attendance records for logged-in user
+    @FetchRequest var attendanceRecords: FetchedResults<Attendance>
 
-            let dateString = dateFormatter.string(from: inTime)
-            let timingString = "In: \(timeFormatter.string(from: inTime)) - Out: \(timeFormatter.string(from: outTime))"
-            return Attendances(date: dateString, timing: timingString)
+    init(username: String) {
+        self.username = username
+
+        // FetchRequest predicate to filter by username of user relationship
+        _attendanceRecords = FetchRequest<Attendance>(
+            entity: Attendance.entity(),
+            sortDescriptors: [NSSortDescriptor(keyPath: \Attendance.inTime, ascending: true)],
+            predicate: NSPredicate(format: "user.username == %@", username),
+            animation: .default
+        )
+    }
+
+    var totalWorkedDuration: TimeInterval {
+        attendanceRecords.reduce(0) { partialResult, record in
+            if let inTime = record.inTime, let outTime = record.outTime {
+                return partialResult + outTime.timeIntervalSince(inTime)
+            }
+            return partialResult
         }
     }
 
+    func formattedDuration(_ duration: TimeInterval) -> String {
+        let hours = Int(duration) / 3600
+        let minutes = (Int(duration) % 3600) / 60
+        return String(format: "%02dh %02dm", hours, minutes)
+    }
+
     var body: some View {
-        ZStack {
-            // Background Image
-            Image("backgroundImage")
-                .resizable()
-                .padding(.all, -150)
-                .ignoresSafeArea()
+        VStack(spacing: 20) {
+            Text("Attendance for \(username)")
+                .font(.largeTitle)
+                .bold()
 
-            VStack(spacing: 16) {
-                Text("Attendance List")
-                    .font(.largeTitle.bold())
-                    .foregroundColor(.black)
-                    .padding(.top, 60)
+            
 
-                ScrollView {
-                    VStack(spacing: 12) {
-                        ForEach(attendanceRecords) { record in
-                            VStack(alignment: .leading) {
-                                Text("Date: \(record.date)")
-                                    .font(.headline)
-                                Text(record.timing)
-                                    .font(.subheadline)
-                            }
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color.purple.opacity(0.7))
-                            .cornerRadius(12)
-                            .shadow(radius: 3)
+            Text("Total Worked Time:")
+                .font(.title2)
+                .bold()
+
+            Text(formattedDuration(totalWorkedDuration))
+                .font(.title)
+                .foregroundColor(.blue)
+
+            Divider().padding()
+
+            ScrollView {
+                VStack(spacing: 10) {
+                    ForEach(attendanceRecords.filter {
+                        selectedRole.isEmpty || $0.user?.role == selectedRole
+                    }) { record in
+                        VStack(alignment: .leading) {
+                            Text("Date: \(record.inTime ?? Date(), formatter: dateFormatter)")
+                            Text("In: \(record.inTime ?? Date(), formatter: timeFormatter) - Out: \(record.outTime ?? Date(), formatter: timeFormatter)")
+                            Text("Role: \(record.user?.role ?? "Unknown")")
                         }
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
                     }
-                    .padding(.horizontal)
                 }
-//
-                
-//                Text("Select Role")
-//                        .font(.headline)
-//                        .foregroundColor(.black)
-//
-//                Picker("Select Role", selection: $rolesZ) {
-//                        ForEach(users, id: \.self) {
-//                            Text($0).tag($0)
-//
-//                        }
-//                    }
-//
-//                .pickerStyle(MenuPickerStyle()) // or MenuPickerStyle(), WheelPickerStyle(), etc.
-//                    .padding(.horizontal)
-//                    .background(Color.orange.opacity(0.8))
-//                    .cornerRadius(10)
-                    
-
-
-                Spacer()
+                .padding()
             }
+            // Role Picker
+            Picker("Select Role", selection: $selectedRole) {
+                Text("All Roles").tag("")
+                ForEach(roles, id: \.self) { role in
+                    Text(role).tag(role)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            .frame(maxWidth: .infinity)
+            .frame(height: 60)
+            .background(Color.purple.opacity(0.6))
+            .cornerRadius(13)
+            .padding(.horizontal)
+            
+
+            Spacer()
         }
         .padding()
     }
 }
 
-// MARK: - Preview
-struct AttendanceView_Previews: PreviewProvider {
-    struct PreviewWrapper: View {
-        @State private var role: String = "Worker"
-        
-        var body: some View {
-            AttendanceView(
-                entries: [
-                    InOutEntry(
-                        inTime: Date(),
-                        outTime: Calendar.current.date(byAdding: .hour, value: 8, to: Date())
-                    )
-                ],
-//                role: $role
-            )
-        }
-    }
 
-    static var previews: some View {
-        PreviewWrapper()
-    }
-}
+// Date and time formatter helpers
+private let dateFormatter: DateFormatter = {
+    let df = DateFormatter()
+    df.dateStyle = .medium
+    return df
+}()
+
+private let timeFormatter: DateFormatter = {
+    let tf = DateFormatter()
+    tf.timeStyle = .short
+    return tf
+}()
+
+
+
+
+
+
+
+
+
+
+
+
