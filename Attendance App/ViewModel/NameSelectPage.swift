@@ -58,14 +58,14 @@ struct NameSelectPage: View {
                 .padding()
             }
 
-            Button("Change Role") {
-                // Add logic or navigation here
-            }
-            .frame(width: 200, height: 50)
-            .foregroundColor(.black)
-            .background(Color.blue.opacity(0.4))
-            .cornerRadius(20)
-            .padding(.vertical, 50)
+//            Button("Change Role") {
+//                // Add logic or navigation here
+//            }
+//            .frame(width: 200, height: 50)
+//            .foregroundColor(.black)
+//            .background(Color.blue.opacity(0.4))
+//            .cornerRadius(20)
+//            .padding(.vertical, 50)
         }
         .navigationTitle("Select Name")
     }
