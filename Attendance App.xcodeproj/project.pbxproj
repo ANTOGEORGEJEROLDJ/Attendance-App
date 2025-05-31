@@ -16,6 +16,13 @@
 		4E30BA782DE8BA22002A0CA2 /* NameSelectPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E30BA682DE8BA22002A0CA2 /* NameSelectPage.swift */; };
 		4E30BA7C2DE8BA22002A0CA2 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E30BA6C2DE8BA22002A0CA2 /* TabView.swift */; };
 		4E30BA7D2DE8BA22002A0CA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E30BA642DE8BA22002A0CA2 /* Assets.xcassets */; };
+		4E3DCA132DEAC1190099D8FC /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3DCA102DEAC1190099D8FC /* ImagePicker.swift */; };
+		4E3DCA142DEAC1190099D8FC /* RoundCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3DCA112DEAC1190099D8FC /* RoundCorner.swift */; };
+		4E3DCA172DEAC11F0099D8FC /* Attendance_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3DCA152DEAC11F0099D8FC /* Attendance_AppTests.swift */; };
+		4E3DCA1B2DEAC1230099D8FC /* Attendance_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3DCA182DEAC1230099D8FC /* Attendance_AppUITests.swift */; };
+		4E3DCA1C2DEAC1230099D8FC /* Attendance_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3DCA192DEAC1230099D8FC /* Attendance_AppUITestsLaunchTests.swift */; };
+		4E3DCA202DEAC12E0099D8FC /* AttandanceViewManu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3DCA1D2DEAC12E0099D8FC /* AttandanceViewManu.swift */; };
+		4E3DCA212DEAC12E0099D8FC /* AttendanceView_Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3DCA1E2DEAC12E0099D8FC /* AttendanceView_Previews.swift */; };
 		4EACA3722DE97ACB00814253 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACA3692DE97ACB00814253 /* ListView.swift */; };
 		4EACA3732DE97ACB00814253 /* inOutpage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACA3682DE97ACB00814253 /* inOutpage.swift */; };
 		4EACA3742DE97ACB00814253 /* profilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACA36A2DE97ACB00814253 /* profilePage.swift */; };
@@ -54,6 +61,13 @@
 		4E30BA682DE8BA22002A0CA2 /* NameSelectPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSelectPage.swift; sourceTree = "<group>"; };
 		4E30BA6C2DE8BA22002A0CA2 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
 		4E30BA6E2DE8BA22002A0CA2 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		4E3DCA102DEAC1190099D8FC /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		4E3DCA112DEAC1190099D8FC /* RoundCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCorner.swift; sourceTree = "<group>"; };
+		4E3DCA152DEAC11F0099D8FC /* Attendance_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attendance_AppTests.swift; sourceTree = "<group>"; };
+		4E3DCA182DEAC1230099D8FC /* Attendance_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attendance_AppUITests.swift; sourceTree = "<group>"; };
+		4E3DCA192DEAC1230099D8FC /* Attendance_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attendance_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4E3DCA1D2DEAC12E0099D8FC /* AttandanceViewManu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttandanceViewManu.swift; sourceTree = "<group>"; };
+		4E3DCA1E2DEAC12E0099D8FC /* AttendanceView_Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView_Previews.swift; sourceTree = "<group>"; };
 		4EACA3672DE97ACB00814253 /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		4EACA3682DE97ACB00814253 /* inOutpage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inOutpage.swift; sourceTree = "<group>"; };
 		4EACA3692DE97ACB00814253 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -61,29 +75,6 @@
 		4EACA36B2DE97ACB00814253 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		4EACA40E2DE99D4700814253 /* sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		4E2FDC872DE6D36400657183 /* Attendance AppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Attendance AppTests";
-			sourceTree = "<group>";
-		};
-		4E2FDC912DE6D36400657183 /* Attendance AppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Attendance AppUITests";
-			sourceTree = "<group>";
-		};
-		4EACA3632DE97A7E00814253 /* Methods */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Methods;
-			sourceTree = "<group>";
-		};
-		4EDAC4C82DE9E9F4007A841C /* Manual intime */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Manual intime";
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		4E2FDC742DE6D36000657183 /* Frameworks */ = {
@@ -114,8 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				4E30BA6D2DE8BA22002A0CA2 /* Attendance App */,
-				4E2FDC872DE6D36400657183 /* Attendance AppTests */,
-				4E2FDC912DE6D36400657183 /* Attendance AppUITests */,
+				4E3DCA162DEAC11F0099D8FC /* Attendance AppTests */,
+				4E3DCA1A2DEAC1230099D8FC /* Attendance AppUITests */,
 				4E2FDC782DE6D36000657183 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -153,14 +144,49 @@
 		4E30BA6D2DE8BA22002A0CA2 /* Attendance App */ = {
 			isa = PBXGroup;
 			children = (
-				4EDAC4C82DE9E9F4007A841C /* Manual intime */,
+				4E3DCA1F2DEAC12E0099D8FC /* Manual intime */,
 				4E30BA602DE8BA22002A0CA2 /* Core Data */,
 				4E30BA632DE8BA22002A0CA2 /* model */,
 				4EACA36C2DE97ACB00814253 /* ViewModel */,
 				4E30BA642DE8BA22002A0CA2 /* Assets.xcassets */,
-				4EACA3632DE97A7E00814253 /* Methods */,
+				4E3DCA122DEAC1190099D8FC /* Methods */,
 			);
 			path = "Attendance App";
+			sourceTree = "<group>";
+		};
+		4E3DCA122DEAC1190099D8FC /* Methods */ = {
+			isa = PBXGroup;
+			children = (
+				4E3DCA102DEAC1190099D8FC /* ImagePicker.swift */,
+				4E3DCA112DEAC1190099D8FC /* RoundCorner.swift */,
+			);
+			path = Methods;
+			sourceTree = "<group>";
+		};
+		4E3DCA162DEAC11F0099D8FC /* Attendance AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				4E3DCA152DEAC11F0099D8FC /* Attendance_AppTests.swift */,
+			);
+			path = "Attendance AppTests";
+			sourceTree = "<group>";
+		};
+		4E3DCA1A2DEAC1230099D8FC /* Attendance AppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4E3DCA182DEAC1230099D8FC /* Attendance_AppUITests.swift */,
+				4E3DCA192DEAC1230099D8FC /* Attendance_AppUITestsLaunchTests.swift */,
+			);
+			path = "Attendance AppUITests";
+			sourceTree = "<group>";
+		};
+		4E3DCA1F2DEAC12E0099D8FC /* Manual intime */ = {
+			isa = PBXGroup;
+			children = (
+				4E3DCA1D2DEAC12E0099D8FC /* AttandanceViewManu.swift */,
+				4E3DCA1E2DEAC12E0099D8FC /* AttendanceView_Previews.swift */,
+			);
+			path = "Manual intime";
 			sourceTree = "<group>";
 		};
 		4EACA36C2DE97ACB00814253 /* ViewModel */ = {
@@ -193,10 +219,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				4EACA3632DE97A7E00814253 /* Methods */,
-				4EDAC4C82DE9E9F4007A841C /* Manual intime */,
-			);
 			name = "Attendance App";
 			packageProductDependencies = (
 			);
@@ -217,9 +239,6 @@
 			dependencies = (
 				4E2FDC862DE6D36400657183 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				4E2FDC872DE6D36400657183 /* Attendance AppTests */,
-			);
 			name = "Attendance AppTests";
 			packageProductDependencies = (
 			);
@@ -239,9 +258,6 @@
 			);
 			dependencies = (
 				4E2FDC902DE6D36400657183 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				4E2FDC912DE6D36400657183 /* Attendance AppUITests */,
 			);
 			name = "Attendance AppUITests";
 			packageProductDependencies = (
@@ -329,6 +345,8 @@
 				4E30BA712DE8BA22002A0CA2 /* CoreDataModel.xcdatamodeld in Sources */,
 				4E30BA722DE8BA22002A0CA2 /* PersistenceController.swift in Sources */,
 				4E30BA732DE8BA22002A0CA2 /* AppConstants.swift in Sources */,
+				4E3DCA202DEAC12E0099D8FC /* AttandanceViewManu.swift in Sources */,
+				4E3DCA212DEAC12E0099D8FC /* AttendanceView_Previews.swift in Sources */,
 				4E30BA742DE8BA22002A0CA2 /* AttendanceManager.swift in Sources */,
 				4EACA3722DE97ACB00814253 /* ListView.swift in Sources */,
 				4EACA40F2DE99D4700814253 /* sample.swift in Sources */,
@@ -338,6 +356,8 @@
 				4EACA3762DE97ACB00814253 /* RegisterView.swift in Sources */,
 				4E30BA782DE8BA22002A0CA2 /* NameSelectPage.swift in Sources */,
 				4E30BA7C2DE8BA22002A0CA2 /* TabView.swift in Sources */,
+				4E3DCA132DEAC1190099D8FC /* ImagePicker.swift in Sources */,
+				4E3DCA142DEAC1190099D8FC /* RoundCorner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E3DCA172DEAC11F0099D8FC /* Attendance_AppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +373,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E3DCA1B2DEAC1230099D8FC /* Attendance_AppUITests.swift in Sources */,
+				4E3DCA1C2DEAC1230099D8FC /* Attendance_AppUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
